@@ -10,13 +10,13 @@ import TaskScreen from "./Screens/TaskScreen";
 function App() {
   return (
     <Router>
-      <h1>Task of RationalTab</h1>
-      <main className="py-3">
+      <main className="py-3 mx-3">
+        <h1>Task of Rational Tab</h1>
         <Container>
           <Routes>
             <Route path="/" element={<LoginScreen />} />
             <Route path="/admin" element={<AdminScreen />} />
-            <Route path="/profile/:id" element={<ProfileScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/users" element={<UserListScreen />} />
             <Route path="/task/:id" element={<TaskScreen />} />
           </Routes>

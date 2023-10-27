@@ -19,14 +19,17 @@ export const LoginScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     login(model, StoreUserInfo);
-    navigate("/home");
+    let userInfo = JSON.parse(localStorage.getItem("user"));
+    if (userInfo) {
+      userInfo.username === "admin" ? navigate("/admin") : navigate("/profile");
+    }
   };
 
   return (
     <FormContainer>
       <h1>Sign in</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="email">
+        <Form.Group controlId="username">
           <Form.Label>UserName</Form.Label>
           <Form.Control
             type="text"

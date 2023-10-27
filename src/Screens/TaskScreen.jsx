@@ -9,14 +9,15 @@ const TaskScreen = () => {
   const [model, setModel] = useState({
     user: params.id,
     taskname: "",
-    time: 0,
+    time: null,
+    isCompleted: false,
   });
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
     createTask(model);
-    navigate("/home");
+    navigate("/admin");
   };
 
   return (
@@ -34,10 +35,10 @@ const TaskScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="time">
-            <Form.Label>time</Form.Label>
+            <Form.Label>Deadline Time</Form.Label>
             <Form.Control
-              type="Number"
-              placeholder="Enter your passwords"
+              type="datetime-local"
+              placeholder="Enter data and time"
               value={model.time}
               onChange={(e) => setModel({ ...model, time: e.target.value })}
             ></Form.Control>

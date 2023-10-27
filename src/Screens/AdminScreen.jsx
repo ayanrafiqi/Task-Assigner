@@ -9,15 +9,16 @@ const AdminScreen = () => {
   const [model, setModel] = useState({ username: "", password: "" });
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user.username !== "admin") {
-      navigate("/login");
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+    console.log(userInfo);
+    if (!userInfo || userInfo.username !== "admin") {
+      navigate("/");
     }
   }, [navigate]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = () => {
     createUser(model);
+    navigate("/users");
   };
 
   return (
@@ -25,11 +26,11 @@ const AdminScreen = () => {
       <FormContainer>
         <h1>Create User</h1>
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId="email">
+          <Form.Group controlId="username">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter your username"
+              placeholder="Enter Username"
               value={model.username}
               onChange={(e) => setModel({ ...model, username: e.target.value })}
             ></Form.Control>
@@ -38,7 +39,7 @@ const AdminScreen = () => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter your passwords"
+              placeholder="Enter user password"
               value={model.password}
               onChange={(e) => setModel({ ...model, password: e.target.value })}
             ></Form.Control>
