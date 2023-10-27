@@ -10,6 +10,6 @@ const {
 router.route("/").get(getUsers);
 router.route("/:id").get(getUserWithTask);
 router.route("/login").post(loginUser);
-router.route("register").post(registerUser);
+router.route("/register").post(registerUser);
 
 module.exports = router;

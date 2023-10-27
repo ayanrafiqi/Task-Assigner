@@ -2,17 +2,18 @@ const Task = require("../model/taskModel");
 const asyncHandler = require("express-async-handler");
 
 const createTask = asyncHandler(async (req, res) => {
-  const { taskname, time } = req.body;
+  const { user, taskname, time } = req.body;
 
   const task = await Task.create({
-    user: 1234,
+    user,
     taskname,
     time,
   });
   if (task) {
     res.status(201).json({
-      taskname: task.taskname,
-      time: task.time,
+      user,
+      taskname,
+      time,
     });
   } else {
     res.status(400);

@@ -6,18 +6,22 @@ const loginUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
   if (!(username && password)) {
-    res.status(400).send("username and password are required");
+    return res
+      .status(400)
+      .json({ error: "Username and password are required." });
   }
 
   const user = await User.findOne({ username: username });
 
   if (!user || password != user.password) {
-    throw new Error("Invalid UserName and Password");
+    return res
+      .status(400)
+      .json({ error: "Username and password are invalid." });
   } else {
     res.status(200).json({
       id: user._id,
-      name: user.name,
-      email: user.email,
+      username: user.username,
+      password: user.password,
       isAdmin: user.isAdmin,
     });
   }
@@ -50,13 +54,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
-
   res.json({ users });
 });
 
 const getUserWithTask = asyncHandler(async (req, res) => {
-  const username = req.params.username;
-  const user = await User.findOne({ username: username });
+  const user = await User.findById(req.params.id);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
