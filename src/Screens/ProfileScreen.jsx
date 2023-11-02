@@ -1,51 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form, ListGroup } from "react-bootstrap";
 import CountdownTimer from "../Components/CountDownTimer";
-import { getUserById } from "../Services/UserServices";
+import { getMyTasks } from "../Services/UserServices";
 import { updateTask } from "../Services/TaskServices";
 
 const ProfileScreen = () => {
+  const [isCompleted, setIsCompleted] = useState(false);
   const [userData, setUserData] = useState();
 
-  const fetchUser = () => {
+  useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user"));
-    getUserById(userInfo._id, setUserData);
-  };
+    const { id: userId } = userInfo;
 
-  useEffect(fetchUser, []);
+    getMyTasks(userId, (data) => {
+      setUserData(data);
+    });
+  }, []);
 
-  const handleTaskCompletion = (taskId) => {
-    updateTask(taskId);
-  };
   return (
-    <div>
-      <h1>{userData.username}'s Tasks And Deadline</h1>
+    <>
       {userData ? (
         <div>
-          <h3>Tasks:</h3>
-          {userData.tasks.map((task, index) => (
-            <Row key={task._id} style={{ marginBottom: "10px" }}>
-              <Col md={4}>
-                <p>{task.taskname}</p>
-              </Col>
-              <Col md={4}>
-                <Form.Check
-                  type="radio"
-                  name={`taskCompletion-${index}`}
-                  checked={task.isCompleted}
-                  onChange={() => handleTaskCompletion(task._id)}
-                />
-              </Col>
-              <Col md={4}>
-                <CountdownTimer deadline={task.time} />
-              </Col>
-            </Row>
-          ))}
+          <h1>Tasks And Deadline</h1>
+          <ListGroup varaint="flush">
+            {userData.map((item, index) => (
+              <ListGroup.Item key={item._id} style={{ marginBottom: "10px" }}>
+                <Row>
+                  <Col md={4}>
+                    <em>Task Name:</em>{" "}
+                    <p
+                      className={
+                        item.tasks.isCompleted
+                          ? "text-decoration-line-through"
+                          : "h4"
+                      }
+                    >
+                      {item.tasks.taskname}
+                    </p>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Check
+                      type="switch"
+                      name={`taskCompletion-${index}`}
+                      label="Mark as Completed?"
+                      checked={isCompleted}
+                      disabled={item.tasks.isCompleted === true}
+                      onChange={() => {
+                        const updatedIsCompleted = !isCompleted;
+                        setIsCompleted(updatedIsCompleted);
+                        updateTask(item._id, updatedIsCompleted);
+                      }}
+                    />
+                  </Col>
+                  <Col md={4}>
+                    Time Left :<CountdownTimer deadline={item.tasks.time} />
+                  </Col>
+                </Row>
+                {/* {console.log(isCompleted)} */}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
         </div>
       ) : (
         <p>Loading user data...</p>
       )}
-    </div>
+    </>
   );
 };
 export default ProfileScreen;

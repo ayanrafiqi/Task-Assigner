@@ -1,17 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import LoginScreen from "./Screens/LoginScreen.1";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import LoginScreen from "./Screens/LoginScreen";
 import AdminScreen from "./Screens/AdminScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
-import UserListScreen from "./Screens/UserList";
+import UserListScreen from "./Screens/UserListScreen";
 import TaskScreen from "./Screens/TaskScreen";
 
 function App() {
   return (
     <Router>
+      <Header />
       <main className="py-3 mx-3">
-        <h1>Task of Rational Tab</h1>
         <Container>
           <Routes>
             <Route path="/" element={<LoginScreen />} />
@@ -22,6 +24,7 @@ function App() {
           </Routes>
         </Container>
       </main>
+      <Footer />
     </Router>
   );
 }

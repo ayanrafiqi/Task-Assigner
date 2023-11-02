@@ -10,20 +10,31 @@ export const createTask = (model) => {
     .post("/api/tasks", model, config)
     .then(({ data }) => console.log(data))
     .catch((err) => {
-      console.log("Cant execute ");
+      console.log(err);
     });
 };
 
-export const updateTask = (id) => {
+export const updateTask = (id, value) => {
+  const data = { isCompleted: value };
+
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
   axios
-    .put(`/api/tasks/${id}`, config)
+    .patch(`/api/tasks/${id}`, data, config)
     .then(({ data }) => console.log(data))
     .catch((err) => {
-      console.log("Cant excute ");
+      console.log(err);
+    });
+};
+
+export const getAllTasks = (cb) => {
+  axios
+    .get("api/tasks")
+    .then(({ data }) => cb(data))
+    .catch((err) => {
+      console.log(err);
     });
 };

@@ -12,7 +12,7 @@ export const login = (model, cb) => {
       cb(data);
     })
     .catch((err) => {
-      console.log("CANT EXCUTE ");
+      console.log(err);
     });
 };
 
@@ -26,7 +26,7 @@ export const createUser = (model) => {
     .post("/api/users/register", model, config)
     .then(({ data }) => console.log(data))
     .catch((err) => {
-      console.log("CANT EXCUTE ");
+      console.log(err);
     });
 };
 
@@ -35,15 +35,15 @@ export const getUsers = (cb) => {
     .get("/api/users")
     .then(({ data }) => cb(data))
     .catch((err) => {
-      console.log("CANT EXCUTE ");
+      console.log(err);
     });
 };
 
-export const getUserById = (id, cb) => {
+export const getMyTasks = (id, cb) => {
   axios
-    .get(`/api/users/:${id}`)
+    .get(`/api/users/${id}/mytasks`)
     .then(({ data }) => cb(data))
     .catch((err) => {
-      console.log("CANT EXCUTE ");
+      console.log(err);
     });
 };

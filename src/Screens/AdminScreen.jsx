@@ -10,13 +10,13 @@ const AdminScreen = () => {
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user"));
-    console.log(userInfo);
     if (!userInfo || userInfo.username !== "admin") {
       navigate("/");
     }
   }, [navigate]);
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault();
     createUser(model);
     navigate("/users");
   };

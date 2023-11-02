@@ -4,10 +4,12 @@ import Table from "react-bootstrap/esm/Table";
 import { useNavigate } from "react-router-dom";
 
 import { getUsers } from "../Services/UserServices";
+import { getAllTasks } from "../Services/TaskServices";
 
 const UserListScreen = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user"));
@@ -15,7 +17,8 @@ const UserListScreen = () => {
       navigate("/");
       return;
     }
-    getUsers(setUsers);
+    getUsers((data) => setUsers(data));
+    getAllTasks((data) => setTasks(data));
   }, [navigate]);
 
   const submitHandler = (userId) => {
@@ -34,30 +37,35 @@ const UserListScreen = () => {
           <thead>
             <tr>
               <th>Username</th>
-              <th>Actions</th>
               <th>Tasks</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {users?.map((user) => (
+            {users.map((user) => (
               <tr key={user._id}>
                 <td>{user.username}</td>
                 <td>
-                  <Button onClick={() => submitHandler(user._id)}>
-                    Assign Task
-                  </Button>
+                  <ul>
+                    {tasks
+                      .filter((item) => item.user === user._id)
+                      .map((item) => (
+                        <li
+                          key={item._id}
+                          style={item.tasks.isCompleted ? taskStyle : {}}
+                        >
+                          {item.tasks.taskname}
+                        </li>
+                      ))}
+                  </ul>
                 </td>
                 <td>
-                  <ul>
-                    {user.tasks.map((task) => (
-                      <li
-                        key={task._id}
-                        style={task.isCompleted ? taskStyle : {}}
-                      >
-                        {task.name}
-                      </li>
-                    ))}
-                  </ul>
+                  <Button
+                    onClick={() => submitHandler(user._id)}
+                    className="mx-3"
+                  >
+                    Assign Task
+                  </Button>
                 </td>
               </tr>
             ))}

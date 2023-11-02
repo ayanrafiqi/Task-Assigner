@@ -19,7 +19,7 @@ export const LoginScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     login(model, StoreUserInfo);
-    let userInfo = JSON.parse(localStorage.getItem("user"));
+    const userInfo = JSON.parse(localStorage.getItem("user"));
     if (userInfo) {
       userInfo.username === "admin" ? navigate("/admin") : navigate("/profile");
     }
