@@ -54,30 +54,29 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
-  res.json({ users });
+  res.json(users);
 });
 
-const getUserWithTask = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
+// @desc fetch tasks by userId
+// @route Get api/tasks/userId
+// @access Private
+
+const getUserTasks = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const userTasks = await Task.find({ user: id });
+
+  if (!userTasks) {
+    res.status(400);
+    throw new Error("User has no assigned tasks");
+  } else {
+    res.json(userTasks);
   }
-
-  const tasks = await Task.find({ user: user._id });
-
-  const userWithTasks = {
-    _id: user._id,
-    username: user.username,
-
-    tasks: tasks,
-  };
-
-  res.json({ user: userWithTasks });
 });
 
 module.exports = {
   loginUser,
   registerUser,
   getUsers,
-  getUserWithTask,
+  getUserTasks,
 };

@@ -6,14 +6,11 @@ const taskSchema = mongoose.Schema({
     required: true,
     ref: "User",
   },
-
-  tasks: [
-    {
-      taskname: { type: String, required: true },
-      time: { type: Date, required: true },
-      isCompleted: { type: Boolean, default: false },
-    },
-  ],
+  tasks: {
+    taskname: { type: String, required: true },
+    time: { type: Date, required: true },
+    isCompleted: { type: Boolean, default: false },
+  },
 });
 
 module.exports = mongoose.model("Task", taskSchema);
