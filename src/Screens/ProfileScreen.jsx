@@ -21,7 +21,7 @@ const ProfileScreen = () => {
     <>
       {userData ? (
         <div>
-          <h1>Tasks And Deadline</h1>
+          <h1>Tasks And Deadline Time</h1>
           <ListGroup varaint="flush">
             {userData.map((item, index) => (
               <ListGroup.Item key={item._id} style={{ marginBottom: "10px" }}>
@@ -38,6 +38,11 @@ const ProfileScreen = () => {
                       {item.tasks.taskname}
                     </p>
                   </Col>
+
+                  <Col md={4}>
+                    Time Left :<CountdownTimer deadline={item.tasks.time} />
+                  </Col>
+
                   <Col md={4}>
                     <Form.Check
                       type="switch"
@@ -52,11 +57,7 @@ const ProfileScreen = () => {
                       }}
                     />
                   </Col>
-                  <Col md={4}>
-                    Time Left :<CountdownTimer deadline={item.tasks.time} />
-                  </Col>
                 </Row>
-                {/* {console.log(isCompleted)} */}
               </ListGroup.Item>
             ))}
           </ListGroup>

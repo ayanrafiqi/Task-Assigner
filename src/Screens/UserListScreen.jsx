@@ -27,6 +27,7 @@ const UserListScreen = () => {
 
   const taskStyle = {
     textDecoration: "line-through",
+    color: "red",
   };
 
   return (
@@ -36,9 +37,9 @@ const UserListScreen = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Username</th>
-              <th>Tasks</th>
-              <th>Actions</th>
+              <th class="bold-and-large-header">Username</th>
+              <th class="bold-and-large-header">Tasks</th>
+              <th class="bold-and-large-header">Actions</th>
             </tr>
           </thead>
           <tbody>
